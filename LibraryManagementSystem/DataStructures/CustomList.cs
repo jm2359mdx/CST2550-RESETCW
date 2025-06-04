@@ -1,7 +1,5 @@
 ﻿using System;
 
-using System;
-
 namespace LibraryManagementSystem.DataStructures
 {
     public class CustomList<T>

@@ -1,4 +1,6 @@
 ﻿using System;
+using LibraryManagementSystem.Models;
+using LibraryManagementSystem.Services;
 using LibraryManagementSystem.DataStructures;
 
 namespace LibraryManagementSystem
@@ -7,28 +9,68 @@ namespace LibraryManagementSystem
     {
         static void Main(string[] args)
         {
-            var list = new CustomList<string>();
+            TestCustomList();
+            TestCustomHashTable();
+            TestLibraryService();
 
-            list.Add("Book A");
-            list.Add("Book B");
-            list.Add("Book C");
+            Console.ReadLine();
+        }
 
-            Console.WriteLine("Items in list:");
-            for (int i = 0; i < list.Count; i++)
+        static void TestCustomList()
+        {
+            var resources = new CustomList<Resource>();
+
+            resources.Add(new Resource { Id = 1, Title = "Book A", Author = "Author A", PublicationYear = 2021, Genre = "Genre A", IsAvailable = true });
+            resources.Add(new Resource { Id = 2, Title = "Book B", Author = "Author B", PublicationYear = 2022, Genre = "Genre B", IsAvailable = false });
+
+            Console.WriteLine("Testing CustomList:");
+            for (int i = 0; i < resources.Count; i++)
             {
-                Console.WriteLine($"- {list.Get(i)}");
+                var res = resources.Get(i);
+                Console.WriteLine($"- [{res.Id}] {res.Title}, Available: {res.IsAvailable}");
             }
 
-            Console.WriteLine("Removing index 1 (Book B)");
-            list.RemoveAt(1);
-
-            Console.WriteLine("After removal:");
-            for (int i = 0; i < list.Count; i++)
+            resources.RemoveAt(0);
+            Console.WriteLine("After removing first resource from CustomList:");
+            for (int i = 0; i < resources.Count; i++)
             {
-                Console.WriteLine($"- {list.Get(i)}");
+                var res = resources.Get(i);
+                Console.WriteLine($"- [{res.Id}] {res.Title}, Available: {res.IsAvailable}");
             }
+            Console.WriteLine();
+        }
 
-            Console.ReadLine(); // Optional: Keeps the window open
+        static void TestCustomHashTable()
+        {
+            var resourceTable = new CustomHashTable<int, Resource>();
+
+            resourceTable.Add(1, new Resource { Id = 1, Title = "Book A", Author = "Author A", IsAvailable = true });
+            resourceTable.Add(2, new Resource { Id = 2, Title = "Book B", Author = "Author B", IsAvailable = false });
+
+            Console.WriteLine("Testing CustomHashTable:");
+            Console.WriteLine($"- Resource ID 1: {resourceTable.Get(1).Title}");
+            Console.WriteLine($"- Resource ID 2: {resourceTable.Get(2).Title}");
+            Console.WriteLine();
+        }
+
+        static void TestLibraryService()
+        {
+            var library = new LibraryService();
+
+            library.AddResource(new Resource { Id = 101, Title = "C# Basics", Author = "John Doe", PublicationYear = 2020, Genre = "Programming", IsAvailable = true });
+            library.AddResource(new Resource { Id = 102, Title = "Advanced Databases", Author = "Jane Smith", PublicationYear = 2021, Genre = "Database", IsAvailable = false });
+
+            Console.WriteLine("Testing LibraryService (initial resources):");
+            library.DisplayAllResources();
+
+            library.UpdateResource(101, new Resource { Id = 101, Title = "C# Advanced", Author = "John Doe", PublicationYear = 2022, Genre = "Programming", IsAvailable = true });
+            Console.WriteLine("\nLibraryService after updating resource ID 101:");
+            library.DisplayAllResources();
+
+            library.RemoveResource(102);
+            Console.WriteLine("\nLibraryService after removing resource ID 102:");
+            library.DisplayAllResources();
+            Console.WriteLine();
         }
     }
 }
