@@ -13,6 +13,8 @@ namespace LibraryManagementSystem
             TestCustomHashTable();
             TestLibraryService();
 
+            LibraryManagementSystem.Tests.SearchTests.Run();
+
             Console.ReadLine();
         }
 

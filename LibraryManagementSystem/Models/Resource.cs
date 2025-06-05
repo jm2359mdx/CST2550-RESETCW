@@ -4,6 +4,7 @@ namespace LibraryManagementSystem.Models
 {
     public class Resource
     {
+       
         public int Id { get; set; }             // Unique ID
         public string Title { get; set; }       // Title of the resource
         public string Author { get; set; }      // Author or Creator
