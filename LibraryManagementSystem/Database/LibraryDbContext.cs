@@ -8,6 +8,7 @@ namespace LibraryManagementSystem.Database
     public class LibraryDbContext : DbContext
     {
         public DbSet<Resource> Resources { get; set; }
+        public DbSet<BorrowingRecord> BorrowingRecords { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

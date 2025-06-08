@@ -12,6 +12,8 @@ namespace LibraryManagementSystem
             TestCustomList();
             TestCustomHashTable();
             TestLibraryService();
+            TestDbCrud();
+
 
             LibraryManagementSystem.Tests.SearchTests.Run();
 
@@ -72,7 +74,45 @@ namespace LibraryManagementSystem
             library.RemoveResource(102);
             Console.WriteLine("\nLibraryService after removing resource ID 102:");
             library.DisplayAllResources();
+
+            // 🔄 Borrowing Test - Add and Display Records
+            var borrowRecord = new BorrowingRecord
+            {
+                ResourceId = 1, // make sure this ID exists in your Resources table
+                BorrowerName = "Alice",
+                BorrowedDate = DateTime.Now,
+                DueDate = DateTime.Now.AddDays(7)
+            };
+
+            library.AddBorrowingRecord(borrowRecord);
+            library.DisplayAllBorrowingRecords();
+
+
+
             Console.WriteLine();
+
         }
+
+        static void TestDbCrud()
+        {
+            var dbService = new LibraryService();
+
+            var newRes = new Resource
+            {
+               
+                Title = "EF Core Guide",
+                Author = "Microsoft",
+                PublicationYear = 2023,
+                Genre = "Tutorial",
+                IsAvailable = true
+            };
+
+            dbService.AddResourceToDb(newRes);
+            dbService.DisplayAllResourcesFromDb();
+            dbService.UpdateResourceInDb(new Resource { Title = "EF Core Updated", Author = "Microsoft", PublicationYear = 2024, Genre = "Tutorial", IsAvailable = true });
+            dbService.DisplayAllResourcesFromDb();
+            dbService.DeleteResourceFromDb(300);
+        }
+
     }
 }
